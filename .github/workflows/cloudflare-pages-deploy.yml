@@ -1,0 +1,44 @@
+name: Deploy to cloudflare pages
+
+on:
+  #push:
+  #  branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      deployments: write
+    name: deploy to cloudflare pages
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: rename wrangler config
+        run: rm -f wrangler.toml && mv wrangler-me.toml wrangler.toml
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Build the site
+        run: pnpm install --frozen-lockfile && pnpm run pages:build
+
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy --project-name="jennings-tv"
+        env:
+          TV_USERNAME: ${{ secrets.TV_USERNAME }}
+          TV_PASSWORD: ${{ secrets.TV_PASSWORD }}
