@@ -1,0 +1,20 @@
+name = "jennings-tv"
+pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2025-09-17"
+compatibility_flags = [ "nodejs_compat" ]
+
+[vars]
+CACHE_TTL = "3600"
+CORS_ORIGIN = "*"
+IMAGE_PROXY_ENABLED = "true"
+NEXTAUTH_URL = "https://jennings-tv.pages.dev"
+NEXT_PUBLIC_SITE_DESCRIPTION = "Jennings TV Broadcasting"
+NEXT_PUBLIC_SITE_NAME = "jennings-tv"
+NEXT_PUBLIC_STORAGE_TYPE = "d1"
+RATE_LIMIT_MAX = "100"
+RATE_LIMIT_WINDOW = "60000"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jennings-tv"
+database_id = "384f17b1-b1cc-4a79-848a-8a03b31fedc4"
